@@ -95,16 +95,16 @@ def main():
 
     # Data arg
     arg_TrainDataPath = './data/data/data1/1'
-    arg_TrainBatchSize = 256
+    arg_TrainBatchSize = 512
     arg_TestBatchSize = 1024
 
     arg_InputDim = 10
 
-    arg_FeatureDim = 64
+    arg_FeatureDim = 32
     arg_classNum = 53
     
     # Learning rate arg
-    arg_BaseLr = 0.01
+    arg_BaseLr = 0.001
     arg_Momentum = 0.5
     arg_WeightDecay = 0.0005
 
@@ -120,7 +120,7 @@ def main():
 
     # Model Constructing
     # Inference Model Constructing
-    Inference = MLP(input_dim=arg_InputDim, feature_dim=arg_FeatureDim, dense_dim=32)
+    Inference = MLP(input_dim=arg_InputDim, feature_dim=arg_FeatureDim, dense_dim=16)
     # Innerproduct Construction
     # InnerProduct = torch.nn.Linear(arg_FeatureDim, arg_classNum)
     InnerProduct = VariantInnerProduct.NormalizedInnerProductWithScale(arg_FeatureDim, arg_classNum, scale=7.0)
