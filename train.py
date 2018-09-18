@@ -87,7 +87,7 @@ def main():
 
     # General arg
     arg_DeviceIds = [0]
-    arg_NumEpoch = 20
+    arg_NumEpoch = 30
     arg_InfoInterval = 10
     arg_SavePath = './checkpoints/softmax_MYO_'
     arg_SaveEpochInterbal = 5
@@ -101,7 +101,7 @@ def main():
 
     arg_InputDim = 10
 
-    arg_FeatureDim = 64
+    arg_FeatureDim = 128
     arg_classNum = 53
     
     # Learning rate arg
