@@ -104,7 +104,7 @@ def main():
     arg_classNum = 53
     
     # Learning rate arg
-    arg_BaseLr = 0.2
+    arg_BaseLr = 0.01
     arg_Momentum = 0.5
     arg_WeightDecay = 0.0005
 
