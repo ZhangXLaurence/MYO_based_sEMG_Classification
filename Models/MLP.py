@@ -6,7 +6,7 @@ class MLP(nn.Module):
         super(MLP, self).__init__()
         # self.conv1 = nn.Conv1d(1, 4, 3)  # 4 * 8
         self.conv1 = nn.Conv1d(1, 4, kernel_size=3)
-        self.fc1 = nn.Linear(10, dense_dim)
+        self.fc1 = nn.Linear(4 * 8, dense_dim)
         self.prelu1 = nn.PReLU()
         self.fc2 = nn.Linear(dense_dim, dense_dim)
         self.prelu2 = nn.PReLU()
