@@ -11,8 +11,6 @@ class MLP(nn.Module):
         self.prelu2 = nn.PReLU()
         self.fc3 = nn.Linear(dense_dim, dense_dim)
         self.prelu3 = nn.PReLU()
-        self.fc4 = nn.Linear(dense_dim, dense_dim)
-        self.prelu4 = nn.PReLU()
         self.ip1 = nn.Linear(dense_dim, feature_dim)
         # self.ip2 = nn.Linear(feature_dim, class_num)
 
@@ -22,8 +20,7 @@ class MLP(nn.Module):
         x1 = self.prelu1(self.fc1(x))
         x2 = self.prelu2(self.fc2(x1))
         x3 = self.prelu3(self.fc3(x2 + x1))
-        x4 = self.prelu4(self.fc4(x3 + x2 + x1))
-        ip1 = self.ip1(x4)    # feature
+        ip1 = self.ip1(x3)    # feature
         # ip2 = self.ip2(ip1)   # logit
         return ip1
 

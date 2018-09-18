@@ -96,7 +96,7 @@ def main():
     ###########################################
     arg_TrainDataPath = './data/data/data1/1'
     ###########################################
-    arg_TrainBatchSize = 256
+    arg_TrainBatchSize = 512
     arg_TestBatchSize = 1024
 
     arg_InputDim = 10
@@ -105,7 +105,7 @@ def main():
     arg_classNum = 53
     
     # Learning rate arg
-    arg_BaseLr = 0.2
+    arg_BaseLr = 0.001
     arg_Momentum = 0.5
     arg_WeightDecay = 0.0005
 
