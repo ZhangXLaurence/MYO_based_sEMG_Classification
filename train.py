@@ -50,18 +50,19 @@ def Train(train_loader, model, criterion, optimizer, epoch, info_interval):
             target = target.cuda()
 
         feats, logits = model(data, target)
-        print('Target size')
-        print(target.size())
-        print('Logit size')
-        print(logits.size())
+        
         loss = criterion[0](logits, target.view(-1))
 
         _, predicted = torch.max(logits.data, 1)
+        # print('Target size')
+        # print(target.size())
+        # print('Logit size')
+        # print(logits.size())
+        # print('Predict size')
+        # print(predicted.size())
 
-        print('Predict size')
-        print(predicted.size())
-
-        accuracy = (target.data == predicted).float().mean()
+        # accuracy = (target.data == predicted).float().mean()
+        accuracy = (target.view(-1).data == predicted).float().mean()
 
         optimizer[0].zero_grad()
         loss.backward()
