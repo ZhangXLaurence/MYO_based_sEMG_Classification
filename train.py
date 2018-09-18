@@ -94,17 +94,17 @@ def main():
     arg_SaveEpochInterbal = 5
 
     # Data arg
-    arg_TrainDataPath = './data'
-    arg_TrainBatchSize = 32
+    arg_TrainDataPath = './data/data/1'
+    arg_TrainBatchSize = 256
     arg_TestBatchSize = 1024
 
     arg_InputDim = 10
 
     arg_FeatureDim = 64
-    arg_classNum = 52
+    arg_classNum = 53
     
     # Learning rate arg
-    arg_BaseLr = 0.1
+    arg_BaseLr = 0.2
     arg_Momentum = 0.5
     arg_WeightDecay = 0.0005
 

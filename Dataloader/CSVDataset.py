@@ -17,7 +17,7 @@ class CSVDataset(Dataset):
 
     def __getitem__(self, index):
         item = self.data.iloc[index, 0:10]
-        label = [ int(self.data.iloc[index][10]) - 1 ]
+        label = [ int(self.data.iloc[index][10]) ]
         if self.transform:
             item = self.transform(item)
         return 10.0 * torch.div(torch.Tensor(item), torch.norm(torch.Tensor(item))), torch.LongTensor(label)
