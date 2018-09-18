@@ -25,10 +25,12 @@ def LoadFashionMNIST(train_batch_size, test_batch_size, path):
     return train_loader, test_loader
 
 # Load CSV
-def LoadCSV(train_batch_size, test_batch_size, cvs_file_dir):
+def LoadCSV(train_batch_size, test_batch_size, cvs_file_dir, isbalanced=True):
     trainset = CSVDataset(cvs_file_dir)
-    # train_loader = DataLoader(trainset, train_batch_size, shuffle=True, num_workers=4)
-    train_loader = DataLoader(trainset, train_batch_size, sampler=ImbalancedDatasetSampler(trainset), num_workers=4)
+    if isbalanced:
+        train_loader = DataLoader(trainset, train_batch_size, sampler=ImbalancedDatasetSampler(trainset), num_workers=4)
+    else:
+        train_loader = DataLoader(trainset, train_batch_size, shuffle=True, num_workers=4)
     testset = CSVDataset(cvs_file_dir)
     test_loader = DataLoader(testset, test_batch_size, shuffle=True, num_workers=4)
     return train_loader, test_loader
@@ -67,6 +69,7 @@ class ImbalancedDatasetSampler(torch.utils.data.sampler.Sampler):
             
         # distribution of classes in the dataset 
         label_to_count = {}
+        print('Preparing weights for different labels...')
         for idx in self.indices:
             label = self._get_label(dataset, idx)
             if label in label_to_count:
@@ -77,7 +80,7 @@ class ImbalancedDatasetSampler(torch.utils.data.sampler.Sampler):
         # weight for each sample
         weights = [1.0 / label_to_count[self._get_label(dataset, idx)]
                    for idx in self.indices]
-        # print(weights)
+        print('Over!')
         self.weights = torch.DoubleTensor(weights)
 
     def _get_label(self, dataset, idx):

@@ -4,8 +4,6 @@ import torch.optim
 
 import sys
 import os
-# sys.path.append(os.path.abspath('.'))
-# sys.path.append(os.path.abspath('..'))
 
 from Dataloader import Dataloader
 from Models import MLP
@@ -55,10 +53,7 @@ def Train(train_loader, model, criterion, optimizer, epoch, info_interval):
         loss = criterion[0](logits, target.view(-1))
 
         _, predicted = torch.max(logits.data, 1)
-        # print('Target is:')
-        # print(target.view(-1))
-        # print('Predict is:')
-        # print(predicted)
+
         accuracy = (target.data == predicted).float().mean()
 
         optimizer[0].zero_grad()
@@ -98,7 +93,9 @@ def main():
     arg_SaveEpochInterbal = 5
 
     # Data arg
+    ###########################################
     arg_TrainDataPath = './data/data/data1/1'
+    ###########################################
     arg_TrainBatchSize = 256
     arg_TestBatchSize = 1024
 
@@ -117,9 +114,7 @@ def main():
     arg_Gamma = 0.5
 
     # Dataset Loading
-    # TrainLoader, TestLoader = DataLoad.LoadMNIST(arg_TrainBatchSize, arg_TestBatchSize, arg_TrainDataPath)
-    # TrainLoader, TestLoader = DataLoad.LoadFashionMNIST(arg_TrainBatchSize, arg_TestBatchSize, arg_TrainDataPath)
-    TrainLoader, TestLoader = Dataloader.LoadCSV(arg_TrainBatchSize, arg_TestBatchSize, arg_TrainDataPath)
+    TrainLoader, TestLoader = Dataloader.LoadCSV(arg_TrainBatchSize, arg_TestBatchSize, arg_TrainDataPath, isbalanced=True)
     
 
     # Model Constructing
@@ -128,7 +123,7 @@ def main():
     # Innerproduct Construction
     # InnerProduct = torch.nn.Linear(arg_FeatureDim, arg_classNum)
     InnerProduct = VariantInnerProduct.NormalizedInnerProductWithScale(arg_FeatureDim, arg_classNum, scale=7.0)
-    # InnerProduct = MarginInnerProduct.ArcFaceInnerProduct(arg_FeatureDim, arg_classNum, scale=7.0, margin=0.35)
+    
     Model = torch.nn.DataParallel(TrainingModel(Inference, InnerProduct), arg_DeviceIds)
 
     # Losses and optimizers Defining
