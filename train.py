@@ -122,7 +122,8 @@ def main():
     # Inference Model Constructing
     Inference = MLP(input_dim=arg_InputDim, feature_dim=arg_FeatureDim, dense_dim=32)
     # Innerproduct Construction
-    InnerProduct = torch.nn.Linear(arg_FeatureDim, arg_classNum)
+    # InnerProduct = torch.nn.Linear(arg_FeatureDim, arg_classNum)
+    InnerProduct = VariantInnerProduct.NormalizedInnerProductWithScale(arg_FeatureDim, arg_classNum, scale=7.0)
     # InnerProduct = MarginInnerProduct.ArcFaceInnerProduct(arg_FeatureDim, arg_classNum, scale=7.0, margin=0.35)
     Model = torch.nn.DataParallel(TrainingModel(Inference, InnerProduct), arg_DeviceIds)
 
