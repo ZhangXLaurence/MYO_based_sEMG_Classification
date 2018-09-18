@@ -22,7 +22,7 @@ class CSVDataset(Dataset):
             item = self.transform(item)
         item = 10.0 * torch.div(torch.Tensor(item), torch.norm(torch.Tensor(item)))
         # item.view_as(torch.zeros(1, 1, 10))
-        return item.view_as(torch.zeros(1, 1, 10)), torch.LongTensor(label)
+        return item.view_as(torch.zeros(1, 10)), torch.LongTensor(label)
     def GetLabel(self,index):
         return int(self.data.iloc[index][10])
 
