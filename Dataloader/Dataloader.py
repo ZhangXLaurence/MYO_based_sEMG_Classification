@@ -28,7 +28,7 @@ def LoadFashionMNIST(train_batch_size, test_batch_size, path):
 def LoadCSV(train_batch_size, test_batch_size, cvs_file_dir):
     trainset = CSVDataset(cvs_file_dir)
     # train_loader = DataLoader(trainset, train_batch_size, shuffle=True, num_workers=4)
-    train_loader = DataLoader(trainset, train_batch_size, sampler=ImbalancedDatasetSampler(trainset), shuffle=True, num_workers=4)
+    train_loader = DataLoader(trainset, train_batch_size, sampler=ImbalancedDatasetSampler(trainset), num_workers=4)
     testset = CSVDataset(cvs_file_dir)
     test_loader = DataLoader(testset, test_batch_size, shuffle=True, num_workers=4)
     return train_loader, test_loader
@@ -77,6 +77,7 @@ class ImbalancedDatasetSampler(torch.utils.data.sampler.Sampler):
         # weight for each sample
         weights = [1.0 / label_to_count[self._get_label(dataset, idx)]
                    for idx in self.indices]
+        print(weights)
         self.weights = torch.DoubleTensor(weights)
 
     def _get_label(self, dataset, idx):
@@ -86,7 +87,7 @@ class ImbalancedDatasetSampler(torch.utils.data.sampler.Sampler):
         elif dataset_type is datasets.ImageFolder:
             return dataset.imgs[idx][1]
         elif dataset_type is CSVDataset:
-            print(dataset.GetLabel(idx))
+            # print(dataset.GetLabel(idx))
             return dataset.GetLabel(idx)
         else:
             raise NotImplementedError
