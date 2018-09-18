@@ -17,6 +17,7 @@ class MLP(nn.Module):
         # self.ip2 = nn.Linear(feature_dim, class_num)
 
     def forward(self, x):
+        print(x)
         x = self.conv1(x)
         x = x.view(-1, 4*8)
         x1 = self.prelu1(self.fc1(x))
