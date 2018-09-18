@@ -55,6 +55,10 @@ def Train(train_loader, model, criterion, optimizer, epoch, info_interval):
         loss = criterion[0](logits, target.view(-1))
 
         _, predicted = torch.max(logits.data, 1)
+        print('Target is:')
+        print(target.view(-1))
+        print('Predict is:')
+        print(predicted)
         accuracy = (target.data == predicted).float().mean()
 
         optimizer[0].zero_grad()
