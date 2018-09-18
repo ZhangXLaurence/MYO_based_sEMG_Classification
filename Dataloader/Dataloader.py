@@ -85,7 +85,7 @@ class ImbalancedDatasetSampler(torch.utils.data.sampler.Sampler):
             return dataset.train_labels[idx].item()
         elif dataset_type is datasets.ImageFolder:
             return dataset.imgs[idx][1]
-        elif: dataset_type is CSVDataset:
+        elif dataset_type is CSVDataset:
             return dataset.GetLabel(idx)
         else:
             raise NotImplementedError
