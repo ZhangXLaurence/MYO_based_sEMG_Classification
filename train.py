@@ -122,7 +122,7 @@ def main():
     arg_Gamma = 0.5
 
     # Dataset Loading
-    TrainLoader, TestLoader = Dataloader.LoadCSV(arg_TrainBatchSize, arg_TestBatchSize, arg_TrainDataPath, isbalanced=False)
+    TrainLoader, TestLoader = Dataloader.LoadCSV(arg_TrainBatchSize, arg_TestBatchSize, arg_TrainDataPath, isbalanced=True)
     
 
     # Model Constructing
