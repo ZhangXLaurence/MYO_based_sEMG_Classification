@@ -94,7 +94,7 @@ def main():
     arg_SaveEpochInterbal = 5
 
     # Data arg
-    arg_TrainDataPath = './data/data/1'
+    arg_TrainDataPath = './data/data/data1/1'
     arg_TrainBatchSize = 256
     arg_TestBatchSize = 1024
 
