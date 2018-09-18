@@ -20,6 +20,7 @@ class MLP(nn.Module):
         print(x.size())
         # x = self.conv1(x)
         # x = x.view(-1, 4*8)
+        x = x.view(-1, 10)
         x1 = self.prelu1(self.fc1(x))
         x2 = self.prelu2(self.fc2(x1))
         x3 = self.prelu3(self.fc3(x2 + x1))
