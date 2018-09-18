@@ -27,8 +27,8 @@ def LoadFashionMNIST(train_batch_size, test_batch_size, path):
 # Load CSV
 def LoadCSV(train_batch_size, test_batch_size, cvs_file_dir):
     trainset = CSVDataset(cvs_file_dir)
-    train_loader = DataLoader(trainset, train_batch_size, shuffle=True, num_workers=4)
-    # train_loader = DataLoader(trainset, train_batch_size, sampler=ImbalancedDatasetSampler(trainset), num_workers=4)
+    # train_loader = DataLoader(trainset, train_batch_size, shuffle=True, num_workers=4)
+    train_loader = DataLoader(trainset, train_batch_size, sampler=ImbalancedDatasetSampler(trainset), num_workers=4)
     testset = CSVDataset(cvs_file_dir)
     test_loader = DataLoader(testset, test_batch_size, shuffle=True, num_workers=4)
     return train_loader, test_loader
