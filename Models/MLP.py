@@ -33,7 +33,6 @@ class MLP(nn.Module):
 class SmallNet(nn.Module):
     def __init__(self, feature_dim):
         super(SmallNet, self).__init__()
-        self.con1 = nn.Conv1d(1, 4, 3)
         self.conv1_1 = nn.Conv2d(1, 32, kernel_size=5, padding=2)
         self.prelu1_1 = nn.PReLU()
         self.conv1_2 = nn.Conv2d(32, 32, kernel_size=5, padding=2)
