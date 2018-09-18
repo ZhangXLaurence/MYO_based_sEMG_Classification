@@ -54,14 +54,6 @@ def Train(train_loader, model, criterion, optimizer, epoch, info_interval):
         loss = criterion[0](logits, target.view(-1))
 
         _, predicted = torch.max(logits.data, 1)
-        # print('Target size')
-        # print(target.size())
-        # print('Logit size')
-        # print(logits.size())
-        # print('Predict size')
-        # print(predicted.size())
-
-        # accuracy = (target.data == predicted).float().mean()
         accuracy = (target.view(-1).data == predicted).float().mean()
 
         optimizer[0].zero_grad()
@@ -113,7 +105,7 @@ def main():
     arg_classNum = 53
     
     # Learning rate arg
-    arg_BaseLr = 0.001
+    arg_BaseLr = 0.1
     arg_Momentum = 0.5
     arg_WeightDecay = 0.0005
 
@@ -127,7 +119,7 @@ def main():
 
     # Model Constructing
     # Inference Model Constructing
-    Inference = MLP(input_dim=arg_InputDim, feature_dim=arg_FeatureDim, dense_dim=16)
+    Inference = MLP(input_dim=arg_InputDim, feature_dim=arg_FeatureDim, dense_dim=32)
     # Innerproduct Construction
     # InnerProduct = torch.nn.Linear(arg_FeatureDim, arg_classNum)
     InnerProduct = VariantInnerProduct.NormalizedInnerProductWithScale(arg_FeatureDim, arg_classNum, scale=7.0)
