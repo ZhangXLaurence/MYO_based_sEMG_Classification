@@ -22,7 +22,7 @@ class CSVDataset(Dataset):
             item = self.transform(item)
         return 10.0 * torch.div(torch.Tensor(item), torch.norm(torch.Tensor(item))), torch.LongTensor(label)
     def GetLabel(self,index):
-        return [ int(self.data.iloc[index][10]) ]
+        return int(self.data.iloc[index][10])
 
 def PdReadCSVInDir(csv_file_dir):
     allFiles = glob.glob(csv_file_dir + "/*.csv")
