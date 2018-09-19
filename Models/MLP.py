@@ -5,6 +5,7 @@ class MLP(nn.Module):
     def __init__(self, input_dim=10, feature_dim=64, dense_dim=32):
         super(MLP, self).__init__()
         self.conv1 = nn.Conv1d(1, 4, kernel_size=3)
+        self.prelu0 = nn.PReLU()
         self.fc1 = nn.Linear(4*8, dense_dim)
         self.prelu1 = nn.PReLU()
         self.fc2 = nn.Linear(dense_dim, dense_dim)
@@ -12,16 +13,16 @@ class MLP(nn.Module):
         self.fc3 = nn.Linear(dense_dim, dense_dim)
         self.prelu3 = nn.PReLU()
         self.ip1 = nn.Linear(dense_dim, feature_dim)
-        # self.ip2 = nn.Linear(feature_dim, class_num)
+        self.ip_relu = nn.PReLU()
 
     def forward(self, x):
         x = self.conv1(x)
-        x = x.view(-1, 4*8)
+        x = self.prelu0(x.view(-1, 4*8))
         x1 = self.prelu1(self.fc1(x))
         x2 = self.prelu2(self.fc2(x1))
         x3 = self.prelu3(self.fc3(x2 + x1))
         ip1 = self.ip1(x3+x2+x1)    # feature
-        # ip2 = self.ip2(ip1)   # logit
+        ip1 = self.ip_relu(ip1)
         return ip1
 
 
@@ -43,7 +44,6 @@ class SmallNet(nn.Module):
         self.prelu3_2 = nn.PReLU()
         self.preluip1 = nn.PReLU()
         self.ip1 = nn.Linear(128 * 3 * 3, feature_dim)
-        # self.ip2 = nn.Linear(32, 10)
 
     def forward(self, x):
         x = self.prelu1_1(self.conv1_1(x))

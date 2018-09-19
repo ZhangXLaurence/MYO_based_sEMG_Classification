@@ -4,6 +4,7 @@ from torch.utils.data import DataLoader
 import torch.utils.data
 
 import os
+from tqdm import tqdm
 
 from . import CSVDataset
 from . import DataTransformCompose
@@ -54,7 +55,6 @@ class ImbalancedDatasetSampler(torch.utils.data.sampler.Sampler):
         indices (list, optional): a list of indices
         num_samples (int, optional): number of samples to draw
     """
-
     def __init__(self, dataset, indices=None, num_samples=None):
                 
         # if indices is not provided, 
@@ -69,17 +69,18 @@ class ImbalancedDatasetSampler(torch.utils.data.sampler.Sampler):
             
         # distribution of classes in the dataset 
         label_to_count = {}
-        print('Preparing weights for different labels...')
-        for idx in self.indices:
+        print('Statistic different labels...')
+        # for idx in self.indices:
+        for idx in tqdm(self.indices):
             label = self._get_label(dataset, idx)
             if label in label_to_count:
                 label_to_count[label] += 1
             else:
-                label_to_count[label] = 1
-                
+                label_to_count[label] = 1   
         # weight for each sample
+        print('Preparing weights for different labels...')
         weights = [1.0 / label_to_count[self._get_label(dataset, idx)]
-                   for idx in self.indices]
+                   for idx in tqdm(self.indices)]
         print('Over!')
         self.weights = torch.DoubleTensor(weights)
 
@@ -90,7 +91,6 @@ class ImbalancedDatasetSampler(torch.utils.data.sampler.Sampler):
         elif dataset_type is datasets.ImageFolder:
             return dataset.imgs[idx][1]
         elif dataset_type is CSVDataset:
-            # print(dataset.GetLabel(idx))
             return dataset.GetLabel(idx)
         else:
             raise NotImplementedError
