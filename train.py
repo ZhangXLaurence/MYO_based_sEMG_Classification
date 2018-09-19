@@ -10,7 +10,6 @@ from Models import MLP
 from Losses import VariantInnerProduct
 from Tools import ModelSaver
 
-
 class TrainingModel(nn.Module):
     def __init__(self, inference_model, inner_product):
         super(TrainingModel, self).__init__()
@@ -103,7 +102,8 @@ def main():
 
     arg_FeatureDim = 128
     arg_classNum = 53
-    
+    arg_DenseDim = 256
+
     # Learning rate arg
     arg_BaseLr = 0.2
     arg_Momentum = 0.5
@@ -119,7 +119,7 @@ def main():
 
     # Model Constructing
     # Inference Model Constructing
-    Inference = MLP(input_dim=arg_InputDim, feature_dim=arg_FeatureDim, dense_dim=128)
+    Inference = MLP(input_dim=arg_InputDim, feature_dim=arg_FeatureDim, dense_dim=arg_DenseDim)
     # Innerproduct Construction
     # InnerProduct = torch.nn.Linear(arg_FeatureDim, arg_classNum)
     InnerProduct = VariantInnerProduct.NormalizedInnerProductWithScale(arg_FeatureDim, arg_classNum, scale=7.0)
