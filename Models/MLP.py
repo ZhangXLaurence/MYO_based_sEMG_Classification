@@ -13,7 +13,7 @@ class MLP(nn.Module):
         self.fc3 = nn.Linear(dense_dim, dense_dim)
         self.prelu3 = nn.PReLU()
         self.ip1 = nn.Linear(dense_dim, feature_dim)
-        self.ip_relu = nn.PReLU()
+        # self.ip_relu = nn.PReLU()
 
     def forward(self, x):
         x = self.conv1(x)
@@ -22,7 +22,7 @@ class MLP(nn.Module):
         x2 = self.prelu2(self.fc2(x1))
         x3 = self.prelu3(self.fc3(x2 + x1))
         ip1 = self.ip1(x3+x2+x1)    # feature
-        ip1 = self.ip_relu(ip1)
+        # ip1 = self.ip_relu(ip1)
         return ip1
 
 
