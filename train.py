@@ -86,7 +86,7 @@ def main():
 
     # General arg
     arg_DeviceIds = [0]
-    arg_NumEpoch = 30
+    arg_NumEpoch = 50
     arg_InfoInterval = 10
     arg_SavePath = './checkpoints/softmax_MYO_'
     arg_SaveEpochInterbal = 5
