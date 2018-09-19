@@ -119,7 +119,7 @@ def main():
 
     # Model Constructing
     # Inference Model Constructing
-    Inference = MLP(input_dim=arg_InputDim, feature_dim=arg_FeatureDim, dense_dim=32)
+    Inference = MLP(input_dim=arg_InputDim, feature_dim=arg_FeatureDim, dense_dim=128)
     # Innerproduct Construction
     # InnerProduct = torch.nn.Linear(arg_FeatureDim, arg_classNum)
     InnerProduct = VariantInnerProduct.NormalizedInnerProductWithScale(arg_FeatureDim, arg_classNum, scale=7.0)
