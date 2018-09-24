@@ -100,7 +100,7 @@ def main():
 
     arg_InputDim = 10
 
-    arg_FeatureDim = 1024
+    arg_FeatureDim = 2048
     arg_classNum = 53
     arg_DenseDim = 256
 
