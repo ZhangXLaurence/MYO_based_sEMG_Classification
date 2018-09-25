@@ -7,19 +7,21 @@ import os
 
 from Dataloader import Dataloader
 from Models import MLP
-from Losses import VariantInnerProduct
+from Losses import VariantInnerProduct, EuclideanBasedLosses
 from Tools import ModelSaver
 
 class TrainingModel(nn.Module):
-    def __init__(self, inference_model, inner_product):
+    def __init__(self, inference_model, inner_product, metric_loss):
         super(TrainingModel, self).__init__()
         self.inference_model = inference_model
         self.inner_product = inner_product
+        self.metric_loss = metric_loss
     def forward(self, x, label):
         features = self.inference_model(x)
+        metric = self.metric_loss(features)
         # logits = self.inner_product(features, label)
         logits = self.inner_product(features)
-        return features, logits
+        return features, logits, metric
     def SaveInferenceModel():
         # TO BE DOWN
         return 0
@@ -48,9 +50,9 @@ def Train(train_loader, model, criterion, optimizer, epoch, info_interval):
             data = data.cuda()
             target = target.cuda()
 
-        feats, logits = model(data, target)
+        feats, logits, metric = model(data, target)
         
-        loss = criterion[0](logits, target.view(-1))
+        loss = criterion[0](logits, target.view(-1)) + metric
 
         _, predicted = torch.max(logits.data, 1)
         accuracy = (target.view(-1).data == predicted).float().mean()
@@ -60,8 +62,8 @@ def Train(train_loader, model, criterion, optimizer, epoch, info_interval):
         optimizer[0].step()
 
         if (i + 1) % info_interval == 0:
-            print('Epoch [%d], Iter [%d/%d] Loss: %.4f Acc %.4f'
-                  % (epoch, i + 1, len(train_loader) , loss.item(), accuracy))
+            print('Epoch [%d], Iter [%d/%d] Loss: %.4f MetricLoss: %.4f Acc %.4f'
+                  % (epoch, i + 1, len(train_loader) , loss.item(), metric.item(), accuracy))
     
 
 def Processing(NumEpoch, LrScheduler, Optimizer, train_loader, test_loder, model, criterion, info_interval, save_path):
@@ -123,8 +125,9 @@ def main():
     # Innerproduct Construction
     # InnerProduct = torch.nn.Linear(arg_FeatureDim, arg_classNum)
     InnerProduct = VariantInnerProduct.NormalizedInnerProductWithScale(arg_FeatureDim, arg_classNum, scale=7.0)
+    MetricLoss = EuclideanBasedLosses.RingLoss(loss_weight=1)
     
-    Model = torch.nn.DataParallel(TrainingModel(Inference, InnerProduct), arg_DeviceIds)
+    Model = torch.nn.DataParallel(TrainingModel(Inference, InnerProduct, MetricLoss), arg_DeviceIds)
 
     # Losses and optimizers Defining
     # Softmax CrossEntropy
